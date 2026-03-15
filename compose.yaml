@@ -1,0 +1,7 @@
+services:
+  agent:
+    # image: ghcr.io/mroxso/agent:latest
+    build: .
+    volumes:
+      - ./data:/app
+    command: ["pi", "--version"]
