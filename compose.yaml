@@ -2,6 +2,69 @@ services:
   agent:
     # image: ghcr.io/mroxso/agent:latest
     build: .
+    env_file:
+      - path: .env
+        required: false   # skip silently when .env does not exist
+    environment:
+      # ── Provider & model selection ───────────────────────────────────────
+      # Override any default set in the Dockerfile
+      - PI_PROVIDER=${PI_PROVIDER:-}
+      - PI_MODEL=${PI_MODEL:-}
+      - PI_THINKING=${PI_THINKING:-}
+      - PI_MODE=${PI_MODE:-}
+      - PI_MODELS=${PI_MODELS:-}
+      - PI_CONTINUE=${PI_CONTINUE:-}
+      - PI_PROMPT=${PI_PROMPT:-}      # ── Tools ────────────────────────────────────────────────────────────────
+      - PI_TOOLS=${PI_TOOLS:-}
+      - PI_NO_TOOLS=${PI_NO_TOOLS:-}
+      # ── Session ──────────────────────────────────────────────────────────────
+      - PI_NO_SESSION=${PI_NO_SESSION:-}
+      - PI_SESSION_DIR=${PI_SESSION_DIR:-}
+      # ── System prompt ────────────────────────────────────────────────────────
+      - PI_SYSTEM_PROMPT=${PI_SYSTEM_PROMPT:-}
+      - PI_APPEND_SYSTEM_PROMPT=${PI_APPEND_SYSTEM_PROMPT:-}
+      # ── Resources ────────────────────────────────────────────────────────────
+      - PI_NO_EXTENSIONS=${PI_NO_EXTENSIONS:-}
+      - PI_NO_SKILLS=${PI_NO_SKILLS:-}
+      - PI_NO_PROMPT_TEMPLATES=${PI_NO_PROMPT_TEMPLATES:-}
+      # ── Misc ─────────────────────────────────────────────────────────────────
+      - PI_VERBOSE=${PI_VERBOSE:-}
+      - PI_API_KEY=${PI_API_KEY:-}      # ── Agent config ─────────────────────────────────────────────────────
+      - CWD=${CWD:-/app}
+      - PI_CODING_AGENT_DIR=${PI_CODING_AGENT_DIR:-}
+      - PI_SKIP_VERSION_CHECK=${PI_SKIP_VERSION_CHECK:-}
+      - PI_CACHE_RETENTION=${PI_CACHE_RETENTION:-}
+      # ── API keys ─────────────────────────────────────────────────────────
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY:-}
+      - AZURE_OPENAI_BASE_URL=${AZURE_OPENAI_BASE_URL:-}
+      - AZURE_OPENAI_RESOURCE_NAME=${AZURE_OPENAI_RESOURCE_NAME:-}
+      - AZURE_OPENAI_API_VERSION=${AZURE_OPENAI_API_VERSION:-}
+      - AZURE_OPENAI_DEPLOYMENT_NAME_MAP=${AZURE_OPENAI_DEPLOYMENT_NAME_MAP:-}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - AWS_BEARER_TOKEN_BEDROCK=${AWS_BEARER_TOKEN_BEDROCK:-}
+      - AWS_REGION=${AWS_REGION:-}
+      - AWS_PROFILE=${AWS_PROFILE:-}
+      - GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT:-}
+      - GOOGLE_CLOUD_LOCATION=${GOOGLE_CLOUD_LOCATION:-}
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS:-}
+      - MISTRAL_API_KEY=${MISTRAL_API_KEY:-}
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
+      - CEREBRAS_API_KEY=${CEREBRAS_API_KEY:-}
+      - XAI_API_KEY=${XAI_API_KEY:-}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - AI_GATEWAY_API_KEY=${AI_GATEWAY_API_KEY:-}
+      - ZAI_API_KEY=${ZAI_API_KEY:-}
+      - OPENCODE_API_KEY=${OPENCODE_API_KEY:-}
+      - HF_TOKEN=${HF_TOKEN:-}
+      - KIMI_API_KEY=${KIMI_API_KEY:-}
+      - MINIMAX_API_KEY=${MINIMAX_API_KEY:-}
+      - MINIMAX_CN_API_KEY=${MINIMAX_CN_API_KEY:-}
     volumes:
       - ./data:/app
-    command: ["pi", "--version"]
+    # No `command` override — the entrypoint handles provider/model/mode.
+    # Pass extra CLI arguments here when needed, e.g.:
+    #   command: ["--tools", "read,bash,edit,write,grep,find,ls"]
